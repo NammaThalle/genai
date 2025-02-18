@@ -11,3 +11,9 @@ def load_model():
     from langchain_google_genai import ChatGoogleGenerativeAI
     model = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
     return model
+
+# Say Hello to the model
+def say_hello():
+    model = load_model()
+    ai_message = model.invoke('Hello')
+    print(ai_message.content)
