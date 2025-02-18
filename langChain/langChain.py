@@ -42,7 +42,7 @@ def translate_text():
 # Load documents
 def load_document():
     from langchain_community.document_loaders import PyPDFLoader
-    file_path = "/home/shravan-manerikar/genai/langChain/nke-10k-2023.pdf"
+    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "nke-10k-2023.pdf")
     loader = PyPDFLoader(file_path)
 
     docs = loader.load()
@@ -69,5 +69,4 @@ def split_document(docs):
     # print(split_docs[0].page_content)
     return split_docs
 
-# split_document(docs=load_document())
-translate_text()
+split_document(docs=load_document())
