@@ -43,3 +43,22 @@ def load_document():
     # print(docs[0].metadata)
 
     return docs
+
+# Split document
+def split_document(docs):
+    from langchain_text_splitters import RecursiveCharacterTextSplitter
+    
+
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size = 1000,
+        chunk_overlap  = 200,
+        length_function = len,
+        is_separator_regex = False,
+    )
+
+    split_docs = text_splitter.split_documents(docs)
+    print(len(split_docs))
+    # print(split_docs[0].page_content)
+    return split_docs
+
+split_document(docs=load_document())
