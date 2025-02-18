@@ -17,3 +17,15 @@ def say_hello():
     model = load_model()
     ai_message = model.invoke('Hello')
     print(ai_message.content)
+
+# Translate the text
+def translate_text():
+    model = load_model()
+    from langchain_core.prompts import ChatPromptTemplate
+    systemTemplate = "Translate the following text from English into {language}"
+    promptTemplate = ChatPromptTemplate.from_messages(
+        [("system", systemTemplate), ("user", "{text}")]
+    )
+    prompt = promptTemplate.invoke({"language": "Hindi with English script", "text": ai_message.content})
+    ai_message = model.invoke(prompt)
+    print(ai_message.content)
