@@ -29,3 +29,17 @@ def translate_text():
     prompt = promptTemplate.invoke({"language": "Hindi with English script", "text": ai_message.content})
     ai_message = model.invoke(prompt)
     print(ai_message.content)
+
+# Load documents
+def load_document():
+    from langchain_community.document_loaders import PyPDFLoader
+    file_path = "/home/shravan-manerikar/genai/langChain/nke-10k-2023.pdf"
+    loader = PyPDFLoader(file_path)
+
+    docs = loader.load()
+    # print(len(docs))
+
+    # print(f"{docs[0].page_content[:200]}\n")
+    # print(docs[0].metadata)
+
+    return docs
