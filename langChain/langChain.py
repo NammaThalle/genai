@@ -89,3 +89,15 @@ def create_embeddings():
     # print(f"Generated vectors of length {len(vector_1)}\n")
 
     return embeddings, all_splits
+
+# Create Vector Store
+def create_vector_store():
+    embeddings, all_splits = create_embeddings()
+
+    from langchain_chroma import Chroma
+
+    vector_store = Chroma(embedding_function=embeddings)
+
+    ids = vector_store.add_documents(documents=all_splits)
+
+    return vector_store
