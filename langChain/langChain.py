@@ -110,9 +110,31 @@ def query_vector_store(query):
 
     return results[0]
 
+# Query using Retriever
+def query_using_retriever(queries):
+    from typing import List
+    from langchain_core.documents import Document
+    from langchain_core.runnables import chain
+
+    vector_store = create_vector_store()
+    @chain
+    def retriever(query:str) -> List[Document]:
+        return vector_store.similarity_search(query, k=1)
+    
+    return retriever.batch(queries)
+
 if __name__ == "__main__":
     # Ask user for a query
-    query = input("Enter your query: ")
+    # query = input("Enter your query: ")
 
-    results = query_vector_store(query)
-    print(f"Output: {results}")
+    # results = query_vector_store(query)
+    # print(f"Output: {results}")
+
+    # Ask for 2 queries and store in a list
+    queries = []
+    print("Enter 2 queries: ")
+    for i in range(2):
+        queries.append(input(f"Enter query {i+1}: "))
+
+    results = query_using_retriever(queries)
+    print(results)
