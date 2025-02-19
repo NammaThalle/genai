@@ -123,6 +123,18 @@ def query_using_retriever(queries):
     
     return retriever.batch(queries)
 
+# Query using as_retriever
+def query_using_as_retriever(queries):
+
+    vectore_store = create_vector_store()
+
+    retriever = vectore_store.as_retriever(
+        search_type = "similarity", # similarity : default | mmr: maximum marginal relevance | similarity_score_threshold: threshold doc outputs by similarity score
+        search_kwargs={"k": 1} # k: number of documents to return
+    )
+
+    return retriever.batch(queries)
+
 if __name__ == "__main__":
     # Ask user for a query
     # query = input("Enter your query: ")
@@ -136,5 +148,7 @@ if __name__ == "__main__":
     for i in range(2):
         queries.append(input(f"Enter query {i+1}: "))
 
-    results = query_using_retriever(queries)
+    # results = query_using_retriever(queries)
+
+    results = query_using_as_retriever(queries)
     print(results)
