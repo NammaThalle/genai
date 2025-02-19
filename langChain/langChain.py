@@ -39,6 +39,8 @@ def translate_text():
     ai_message = model.invoke(prompt)
     print(ai_message.content)
 
+# class LangChainDocuments:
+
 # Load documents
 def load_document():
     from langchain_community.document_loaders import PyPDFLoader
@@ -46,8 +48,8 @@ def load_document():
     loader = PyPDFLoader(file_path)
 
     docs = loader.load()
+    
     # print(len(docs))
-
     # print(f"{docs[0].page_content[:200]}\n")
     # print(docs[0].metadata)
 
@@ -60,13 +62,30 @@ def split_document(docs):
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size = 1000,
         chunk_overlap  = 200,
-        length_function = len,
-        is_separator_regex = False,
+        add_start_index = True,
+        # length_function = len,
+        # is_separator_regex = False,
     )
 
     split_docs = text_splitter.split_documents(docs)
-    print(len(split_docs))
+    
+    # print(len(split_docs))
     # print(split_docs[0].page_content)
+    
     return split_docs
 
-split_document(docs=load_document())
+# Create Embeddings
+def create_embeddings():
+    from langchain_huggingface import HuggingFaceEmbeddings
+
+    embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+
+    all_splits = split_document(load_document())
+
+    vector_1 = embeddings.embed_query(all_splits[0].page_content)
+    vector_2 = embeddings.embed_query(all_splits[1].page_content)
+
+    assert len(vector_1) == len(vector_2)
+    # print(f"Generated vectors of length {len(vector_1)}\n")
+
+    return embeddings, all_splits
