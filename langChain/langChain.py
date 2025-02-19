@@ -101,3 +101,18 @@ def create_vector_store():
     ids = vector_store.add_documents(documents=all_splits)
 
     return vector_store
+
+# Query Vector Store
+def query_vector_store(query):
+    vector_store = create_vector_store()
+
+    results = vector_store.similarity_search(query)
+
+    return results[0]
+
+if __name__ == "__main__":
+    # Ask user for a query
+    query = input("Enter your query: ")
+
+    results = query_vector_store(query)
+    print(f"Output: {results}")
