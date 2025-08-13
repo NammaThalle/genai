@@ -172,3 +172,4 @@ cython_debug/
 
 credentials.json
 .DS_Store
+.claude

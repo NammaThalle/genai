@@ -131,10 +131,10 @@ def hallucination_grader(documents, llm_response):
 
     response = hallucination_grader.invoke({"documents": documents, "response": llm_response})
 
-    if response:
+    if response.score: # type: ignore
         return llm_response 
     else:
-        print ("I don't know")
+        return "I don't know"
 
 # Example usage
 if __name__ == "__main__":
@@ -199,6 +199,11 @@ if __name__ == "__main__":
 
         # Filter documents based on relevance using the retrieval grader
         docs_to_use = [doc for doc in retrieved_docs if retrieval_grader.invoke({"document": doc.page_content, "question": question}).score == 1]  # type: ignore
+        
+        # Fallback if no relevant documents found
+        if not docs_to_use:
+            print("Response: I don't know - no relevant documents found.")
+            continue
         
         # Generate the response using the relevant documents
         llm_response = generate_rag_response(docs_to_use, question)
