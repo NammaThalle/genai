@@ -171,3 +171,4 @@ cython_debug/
 .pypirc
 
 credentials.json
+.DS_Store
